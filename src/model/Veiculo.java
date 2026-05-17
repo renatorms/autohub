@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable; //objetos salvos em arquivos
 
-public abstract class Veiculo implements Serializable {
+public abstract class Veiculo implements Serializable, Disponivel {
     private static final long serialVersionUID = 1L;
 
     private String marca;
@@ -12,6 +12,7 @@ public abstract class Veiculo implements Serializable {
     private String placa;
     private int quilometragem;
     private double precoBase;
+    private boolean vendido;
 
     public Veiculo(String marca, String modelo, String cor, String placa, int ano, int quilometragem,
             double precoBase) {
@@ -22,6 +23,7 @@ public abstract class Veiculo implements Serializable {
         this.ano = ano;
         this.quilometragem = quilometragem;
         this.precoBase = precoBase;
+        this.vendido = false;
     }
 
     public String getMarca() {
@@ -82,6 +84,29 @@ public abstract class Veiculo implements Serializable {
 
     public String getDescricao() {
         return marca + " " + modelo + " - " + ano + " - Placa: " + placa;
+    }
+
+    @Override
+    public boolean podeSerVendido() {
+        return !vendido;
+    }
+
+    @Override
+    public void registrarVenda() {
+        this.vendido = true;
+    }
+
+    @Override
+    public void retornarAoEstoque() {
+        this.vendido = false;
+    }
+
+    public boolean isVendido() {
+        return vendido;
+    }
+
+    public void setVendido(boolean vendido) {
+        this.vendido = vendido;
     }
 
     public abstract double calcularPreco();
