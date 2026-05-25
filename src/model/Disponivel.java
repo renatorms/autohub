@@ -6,5 +6,4 @@ public interface Disponivel {
     void registrarVenda();
 
     void retornarAoEstoque();
-
 }
