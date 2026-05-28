@@ -59,7 +59,11 @@ public class AutoHubFrame extends JFrame {
 
         JPanel painelSuperior = new JPanel(new BorderLayout());
         campoBusca = new JTextField();
+        campoBusca.setToolTipText("Digite marca, modelo, placa, cor, tipo ou ano para buscar");
+
+        painelSuperior.add(new javax.swing.JLabel(" Buscar por palavra-chave: "), BorderLayout.WEST);
         painelSuperior.add(campoBusca, BorderLayout.CENTER);
+
         add(painelSuperior, BorderLayout.NORTH);
 
         JPanel painelBotoes = new JPanel(new GridLayout(3, 4));
