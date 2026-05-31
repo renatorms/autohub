@@ -215,23 +215,27 @@ A interface também exibe mensagens de erro e sucesso usando `JOptionPane`.
 
 ## 11. Prints da interface
 
-Inserir nesta seção os prints da aplicação em funcionamento:
+A seguir estão alguns registros da interface gráfica do sistema em funcionamento.
 
-**Print 1 — Tela inicial do sistema**
+**Print 1 — Tela principal com listagem de veículos**
 
-[Inserir print da tela inicial]
+![Tela principal](prints/tela-principal-listagem.png)
 
 **Print 2 — Cadastro de veículo**
 
-[Inserir print do cadastro de carro, moto ou caminhão]
+![Cadastro de veículo](prints/cadastro-veiculo-modelo.png)
 
-**Print 3 — Listagem de veículos**
+**Print 3 — Cadastro de marca**
 
-[Inserir print mostrando veículos cadastrados]
+![Cadastro de marca](prints/cadastro-veiculo-marca.png)
 
-**Print 4 — Tratamento de exceção**
+**Print 4 — Simulação de parcelas**
 
-[Inserir print da mensagem “Este veículo já foi vendido.” ou outra validação]
+![Simulação de parcelas](prints/simulacao-parcelas.png)
+
+**Print 5 — Tratamento de exceção: veículo já vendido**
+
+![Veículo já vendido](prints/tratamento-excecao-veiculo-vendido.png)
 
 ## 12. Conclusão
 
