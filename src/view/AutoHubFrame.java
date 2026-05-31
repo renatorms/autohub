@@ -45,6 +45,7 @@ public class AutoHubFrame extends JFrame {
         setLocationRelativeTo(null);
 
         configurarComponentes();
+        carregarDadosAutomaticamente();
         atualizarListagem();
     }
 
@@ -58,6 +59,7 @@ public class AutoHubFrame extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         JPanel painelSuperior = new JPanel(new BorderLayout());
+
         campoBusca = new JTextField();
         campoBusca.setToolTipText("Digite marca, modelo, placa, cor, tipo ou ano para buscar");
 
@@ -119,7 +121,9 @@ public class AutoHubFrame extends JFrame {
     private void adicionarCarro() {
         try {
             Carro carro = criarCarro();
+
             estoqueService.adicionar(carro);
+            salvarDadosAutomaticamente();
 
             JOptionPane.showMessageDialog(this, "Carro cadastrado com sucesso.");
             atualizarListagem();
@@ -133,7 +137,9 @@ public class AutoHubFrame extends JFrame {
     private void adicionarMoto() {
         try {
             Moto moto = criarMoto();
+
             estoqueService.adicionar(moto);
+            salvarDadosAutomaticamente();
 
             JOptionPane.showMessageDialog(this, "Moto cadastrada com sucesso.");
             atualizarListagem();
@@ -147,7 +153,9 @@ public class AutoHubFrame extends JFrame {
     private void adicionarCaminhao() {
         try {
             Caminhao caminhao = criarCaminhao();
+
             estoqueService.adicionar(caminhao);
+            salvarDadosAutomaticamente();
 
             JOptionPane.showMessageDialog(this, "Caminhão cadastrado com sucesso.");
             atualizarListagem();
@@ -180,6 +188,8 @@ public class AutoHubFrame extends JFrame {
 
             if (confirmacao == JOptionPane.YES_OPTION) {
                 estoqueService.remover(palavraChave);
+                salvarDadosAutomaticamente();
+
                 JOptionPane.showMessageDialog(this, "Veículo removido com sucesso.");
                 atualizarListagem();
             }
@@ -200,6 +210,7 @@ public class AutoHubFrame extends JFrame {
             }
 
             estoqueService.editar(palavraChave, veiculoAtualizado);
+            salvarDadosAutomaticamente();
 
             JOptionPane.showMessageDialog(this, "Veículo editado com sucesso.");
             atualizarListagem();
@@ -207,13 +218,17 @@ public class AutoHubFrame extends JFrame {
             mostrarErro("Erro ao editar", erro.getMessage());
         } catch (NumberFormatException erro) {
             mostrarErro("Erro de formato", "Informe valores numéricos válidos.");
+        } catch (IllegalArgumentException erro) {
+            mostrarErro("Erro ao editar", erro.getMessage());
         }
     }
 
     private void registrarVenda() {
         try {
             String palavraChave = obterPalavraChave();
+
             estoqueService.registrarVenda(palavraChave);
+            salvarDadosAutomaticamente();
 
             JOptionPane.showMessageDialog(this, "Venda registrada com sucesso.");
             atualizarListagem();
@@ -225,7 +240,9 @@ public class AutoHubFrame extends JFrame {
     private void retornarAoEstoque() {
         try {
             String palavraChave = obterPalavraChave();
+
             estoqueService.retornarAoEstoque(palavraChave);
+            salvarDadosAutomaticamente();
 
             JOptionPane.showMessageDialog(this, "Veículo retornou ao estoque.");
             atualizarListagem();
@@ -284,6 +301,23 @@ public class AutoHubFrame extends JFrame {
             atualizarListagem();
         } catch (FalhaPersistenciaException | DadosInvalidosException erro) {
             mostrarErro("Erro ao carregar", erro.getMessage());
+        }
+    }
+
+    private void salvarDadosAutomaticamente() {
+        try {
+            estoqueRepository.salvar(estoqueService.listarTodos(), CAMINHO_ARQUIVO);
+        } catch (FalhaPersistenciaException erro) {
+            mostrarErro("Erro ao salvar automaticamente", erro.getMessage());
+        }
+    }
+
+    private void carregarDadosAutomaticamente() {
+        try {
+            List<Veiculo> estoqueCarregado = estoqueRepository.carregar(CAMINHO_ARQUIVO);
+            estoqueService.substituirEstoque(estoqueCarregado);
+        } catch (FalhaPersistenciaException | DadosInvalidosException erro) {
+            mostrarErro("Erro ao carregar dados", erro.getMessage());
         }
     }
 
